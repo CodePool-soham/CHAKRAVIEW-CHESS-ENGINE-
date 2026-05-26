@@ -1,0 +1,4 @@
+<Solution>
+  <Project Path="../ChakraView.GUI/ChakraView.GUI.csproj" Id="225b29bf-78b6-430d-b3da-98702e212dc3" />
+  <Project Path="ChakraView.csproj" />
+</Solution>
