@@ -19,7 +19,7 @@ The ChakraView project contains the complete chess engine logic.
 * Timer system for gameplay control <br>
 * Modular structure for easy expansion <br>
 
-🔧 Design Approach:
+# 🔧 Design Approach:
 * Separation of concerns (AI, Rules, Game, Timer) <br>
 * Clean architecture for scalability <br>
 * Engine is independent of UI (can run standalone) <br>
