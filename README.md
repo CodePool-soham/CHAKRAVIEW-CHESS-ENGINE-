@@ -42,9 +42,10 @@ The GUI acts as a frontend layer, allowing users to play and test the engine vis
 
 <img width="900" height="231" alt="image" src="https://github.com/user-attachments/assets/b78142f5-d9e9-4e32-85e5-da806e6c047b" /> <br>
 
-Engine handles all chess logic
-GUI only handles rendering and user input
-Clear separation for maintainability
+* Engine handles all chess logic <br>
+* GUI only handles rendering and user input <br>
+* Clear separation for maintainability <br>
+
 ⚙️ Build & Run
 # Prerequisites:
 * .NET SDK 8.0
