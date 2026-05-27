@@ -10,27 +10,29 @@ ChakraView.GUI (Windows Forms UI)
 The ChakraView project contains the complete chess engine logic.
 
 ✔ Features implemented:
-Full chess rules validation
-Move generation system
-Game state tracking
-Basic AI module (for move decision making)
-Turn management system
-Timer system for gameplay control
-Modular structure for easy expansion
+
+Full chess rules validation <br>
+Move generation system <br>
+Game state tracking <br>
+Basic AI module (for move decision making) <br>
+Turn management system <br>
+Timer system for gameplay control <br>
+Modular structure for easy expansion <br>
+
 🔧 Design Approach:
-Separation of concerns (AI, Rules, Game, Timer)
-Clean architecture for scalability
-Engine is independent of UI (can run standalone)
-🖥️ ChakraView.GUI (User Interface)
+Separation of concerns (AI, Rules, Game, Timer) <br>
+Clean architecture for scalability <br>
+Engine is independent of UI (can run standalone) <br>
+🖥️ ChakraView.GUI (User Interface) <br>
 
 The GUI project is a Windows Forms application that connects to the engine.
 
 ✔ Features:
-Interactive chessboard UI
-Piece movement via mouse input
-Visual representation of game state
-Integration with ChakraView engine logic
-Real-time updates after each move <br>
+Interactive chessboard UI <br>
+Piece movement via mouse input <br>
+Visual representation of game state <br>
+Integration with ChakraView engine logic <br>
+Real-time updates after each move <br> 
 
 
 🎯 Purpose:
