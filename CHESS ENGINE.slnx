@@ -1,0 +1,6 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/ChakraView.GUI/ChakraView.GUI.csproj" />
+    <Project Path="src/ChakraView/ChakraView.csproj" />
+  </Folder>
+</Solution>
