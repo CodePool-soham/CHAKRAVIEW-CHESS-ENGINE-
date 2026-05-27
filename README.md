@@ -9,7 +9,7 @@ ChakraView.GUI (Windows Forms UI)
 
 The ChakraView project contains the complete chess engine logic.
 
-✔ Features implemented:
+# ✔ Features implemented:
 
 * Full chess rules validation <br>
 * Move generation system <br>
@@ -20,22 +20,23 @@ The ChakraView project contains the complete chess engine logic.
 * Modular structure for easy expansion <br>
 
 🔧 Design Approach:
-Separation of concerns (AI, Rules, Game, Timer) <br>
-Clean architecture for scalability <br>
-Engine is independent of UI (can run standalone) <br>
-🖥️ ChakraView.GUI (User Interface) <br>
+* Separation of concerns (AI, Rules, Game, Timer) <br>
+* Clean architecture for scalability <br>
+* Engine is independent of UI (can run standalone) <br>
+
+# 🖥️ ChakraView.GUI (User Interface) <br>
 
 The GUI project is a Windows Forms application that connects to the engine.
 
 ✔ Features:
-Interactive chessboard UI <br>
-Piece movement via mouse input <br>
-Visual representation of game state <br>
-Integration with ChakraView engine logic <br>
-Real-time updates after each move <br> 
+* Interactive chessboard UI <br>
+* Piece movement via mouse input <br>
+* Visual representation of game state <br>
+* Integration with ChakraView engine logic <br>
+* Real-time updates after each move <br> 
 
 
-🎯 Purpose:
+# 🎯 Purpose:
 
 The GUI acts as a frontend layer, allowing users to play and test the engine visually instead of console-based interaction.
 
@@ -49,10 +50,10 @@ Engine handles all chess logic
 GUI only handles rendering and user input
 Clear separation for maintainability
 ⚙️ Build & Run
-Prerequisites:
-.NET SDK 10+
-Visual Studio 2022/2025
-Run:
-Open CHESS ENGINE.sln
-Set ChakraView.GUI as Startup Project
-Press F5 to run
+# Prerequisites:
+* .NET SDK 8.0
+* Visual Studio 2022/2025
+# Run:
+* Open CHESS ENGINE.sln
+* Set ChakraView.GUI as Startup Project
+* Press F5 to run
