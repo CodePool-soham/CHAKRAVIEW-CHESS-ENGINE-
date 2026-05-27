@@ -4,32 +4,8 @@ ChakraView is a modular chess engine built in C# with a separate GUI project for
 
 ChakraView (Engine Core)
 ChakraView.GUI (Windows Forms UI)
-📁 Project Structure
-CHESS ENGINE/
-│
-├── src/
-│   ├── ChakraView/          # Chess engine (logic layer)
-│   │   ├── AI/              # AI / move decision system
-│   │   ├── Game/           # Game state management
-│   │   ├── Rules/          # Move validation & chess rules
-│   │   ├── Timer/          # Game timing logic
-│   │   ├── Program.cs      # Entry (engine testing / console)
-│   │   ├── ChakraView.csproj
-│   │   └── ChakraView.slnx
-│   │
-│   └── ChakraView.GUI/     # Windows Forms GUI
-│       ├── Form1.cs        # Main UI logic
-│       ├── Form1.Designer.cs
-│       ├── Form1.resx
-│       ├── Program.cs
-│       ├── Properties/
-│       │   └── PublishProfiles/
-│       └── ChakraView.GUI.csproj
-│
-├── .gitignore
-├── README.md
-└── CHESS ENGINE.sln
-🧠 ChakraView (Engine Core)
+<img width="903" height="688" alt="image" src="https://github.com/user-attachments/assets/77359d0b-2731-4a6c-822c-9d126a36cd04" />
+
 
 The ChakraView project contains the complete chess engine logic.
 
