@@ -11,13 +11,13 @@ The ChakraView project contains the complete chess engine logic.
 
 ✔ Features implemented:
 
-Full chess rules validation <br>
-Move generation system <br>
-Game state tracking <br>
-Basic AI module (for move decision making) <br>
-Turn management system <br>
-Timer system for gameplay control <br>
-Modular structure for easy expansion <br>
+*Full chess rules validation <br>
+*Move generation system <br>
+*Game state tracking <br>
+*Basic AI module (for move decision making) <br>
+*Turn management system <br>
+*Timer system for gameplay control <br>
+*Modular structure for easy expansion <br>
 
 🔧 Design Approach:
 Separation of concerns (AI, Rules, Game, Timer) <br>
