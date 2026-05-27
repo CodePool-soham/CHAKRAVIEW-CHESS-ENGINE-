@@ -31,6 +31,8 @@ Piece movement via mouse input
 Visual representation of game state
 Integration with ChakraView engine logic
 Real-time updates after each move <br>
+
+
 🎯 Purpose:
 
 The GUI acts as a frontend layer, allowing users to play and test the engine visually instead of console-based interaction.
