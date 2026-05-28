@@ -9,12 +9,20 @@ namespace ChakraView.GUI
     {
         private Button[,] squares;
 
+        private Dictionary<string, Image> pieceImages = new();
+
+
+
         private Board board;
 
         private ChessAI ai;
 
-        private Label
-        checkLabel;
+        private Label checkLabel;
+
+
+        private List<Panel> moveHints = new();
+
+
 
         private bool aiThinking = false;
 
@@ -34,11 +42,11 @@ namespace ChakraView.GUI
         private Label
             turnLabel;
 
-        private Label
-            blackCapturedLabel;
+        private FlowLayoutPanel
+            blackCapturedPanel;
 
-        private Label
-            whiteCapturedLabel;
+        private FlowLayoutPanel
+            whiteCapturedPanel;
 
         private Button
             restartButton;
@@ -72,6 +80,7 @@ namespace ChakraView.GUI
         public Form1()
         {
             InitializeComponent();
+            LoadPieceImages();
 
             board =
                 new Board();
@@ -110,11 +119,17 @@ namespace ChakraView.GUI
 
             ClientSize =
                 new Size(
-                    900,
+                    1100,
                     640);
 
             Text =
                 "ChakraView Chess";
+
+            BackColor =
+               Color.FromArgb(
+                   24, 30, 40);
+
+
 
             FormBorderStyle =
                 FormBorderStyle.FixedSingle;
@@ -123,7 +138,58 @@ namespace ChakraView.GUI
                 false;
         }
 
-        private void CreateBoard()
+        private void LoadPieceImages()
+        {
+            pieceImages["White_King"] =
+                Image.FromFile(
+                    "Assets/Pieces/white_king.png");
+
+            pieceImages["White_Queen"] =
+                Image.FromFile(
+                    "Assets/Pieces/white_queen.png");
+
+            pieceImages["White_Rook"] =
+                Image.FromFile(
+                    "Assets/Pieces/white_rook.png");
+
+            pieceImages["White_Bishop"] =
+                Image.FromFile(
+                    "Assets/Pieces/white_bishop.png");
+
+            pieceImages["White_Knight"] =
+                Image.FromFile(
+                    "Assets/Pieces/white_knight.png");
+
+            pieceImages["White_Pawn"] =
+                Image.FromFile(
+                    "Assets/Pieces/white_pawn.png");
+
+            pieceImages["Black_King"] =
+                Image.FromFile(
+                    "Assets/Pieces/black_king.png");
+
+            pieceImages["Black_Queen"] =
+                Image.FromFile(
+                    "Assets/Pieces/black_queen.png");
+
+            pieceImages["Black_Rook"] =
+                Image.FromFile(
+                    "Assets/Pieces/black_rook.png");
+
+            pieceImages["Black_Bishop"] =
+                Image.FromFile(
+                    "Assets/Pieces/black_bishop.png");
+
+            pieceImages["Black_Knight"] =
+                Image.FromFile(
+                    "Assets/Pieces/black_knight.png");
+
+            pieceImages["Black_Pawn"] =
+                Image.FromFile(
+                    "Assets/Pieces/black_pawn.png");
+        }
+
+        private void    CreateBoard()
         {
             squares =
                 new Button[8, 8];
@@ -153,15 +219,27 @@ namespace ChakraView.GUI
                     square.Top =
                         row * size;
 
-                    square.Font =
-                        new Font(
-                            "Segoe UI Symbol",
-                            28);
+                    square.FlatStyle =
+                        FlatStyle.Flat;
+
+                    square.FlatAppearance
+                        .BorderSize = 0;
+
+                    square.Margin =
+                        Padding.Empty;
+
+                    square.Padding =
+                        Padding.Empty;
+
+                    square.ImageAlign =
+                        ContentAlignment.MiddleCenter;
 
                     square.BackColor =
                         (row + col) % 2 == 0
-                        ? Color.Beige
-                        : Color.SaddleBrown;
+                        ? Color.FromArgb(
+                            125, 155, 190) // light blue
+                        : Color.FromArgb(
+                            70, 97, 135);  // dark blue
 
                     int currentRow =
                         row;
@@ -187,7 +265,7 @@ namespace ChakraView.GUI
 
         private void CreateSidebar()
         {
-            int panelX = 690;
+            int panelX = 760;
 
             // Timer
             whiteTimerLabel =
@@ -201,6 +279,12 @@ namespace ChakraView.GUI
                     "Segoe UI",
                     28,
                     FontStyle.Bold);
+
+            whiteTimerLabel.ForeColor =
+                Color.WhiteSmoke;
+
+            whiteTimerLabel.BackColor =
+                Color.Transparent;
 
             whiteTimerLabel.AutoSize =
                 true;
@@ -224,7 +308,14 @@ namespace ChakraView.GUI
             turnLabel.Font =
                 new Font(
                     "Segoe UI",
-                    16);
+                    16,
+                    FontStyle.Bold);
+
+            turnLabel.ForeColor =
+                Color.Gainsboro;
+
+            turnLabel.BackColor =
+                Color.Transparent;
 
             turnLabel.AutoSize =
                 true;
@@ -234,8 +325,13 @@ namespace ChakraView.GUI
 
             turnLabel.Top =
                 150;
+
+            Controls.Add(
+                turnLabel);
+
+            // Check Label
             checkLabel =
-    new Label();
+                new Label();
 
             checkLabel.Text =
                 "";
@@ -247,7 +343,11 @@ namespace ChakraView.GUI
                     FontStyle.Bold);
 
             checkLabel.ForeColor =
-                Color.Red;
+                Color.FromArgb(
+                    255, 90, 90);
+
+            checkLabel.BackColor =
+                Color.Transparent;
 
             checkLabel.AutoSize =
                 true;
@@ -261,56 +361,113 @@ namespace ChakraView.GUI
             Controls.Add(
                 checkLabel);
 
-            Controls.Add(
-                turnLabel);
-
-            // Captured by player
-            blackCapturedLabel =
+            // Captured title
+            Label capturedTitle =
                 new Label();
 
-            blackCapturedLabel.Text =
-                "Captured:\n";
+            capturedTitle.Text =
+                "Captured Pieces";
 
-            blackCapturedLabel.Font =
+            capturedTitle.ForeColor =
+                Color.White;
+
+            capturedTitle.BackColor =
+                Color.Transparent;
+
+            capturedTitle.Font =
                 new Font(
-                    "Segoe UI Symbol",
-                    16);
+                    "Segoe UI",
+                    14,
+                    FontStyle.Bold);
 
-            blackCapturedLabel.AutoSize =
-                true;
-
-            blackCapturedLabel.Left =
+            capturedTitle.Left =
                 panelX;
 
-            blackCapturedLabel.Top =
+            capturedTitle.Top =
                 220;
 
-            Controls.Add(
-                blackCapturedLabel);
-
-            // Lost pieces
-            whiteCapturedLabel =
-                new Label();
-
-            whiteCapturedLabel.Text =
-                "Lost:\n";
-
-            whiteCapturedLabel.Font =
-                new Font(
-                    "Segoe UI Symbol",
-                    16);
-
-            whiteCapturedLabel.AutoSize =
+            capturedTitle.AutoSize =
                 true;
 
-            whiteCapturedLabel.Left =
+            Controls.Add(
+                capturedTitle);
+
+            // Captured panel
+            blackCapturedPanel =
+                new FlowLayoutPanel();
+
+            blackCapturedPanel.Left =
                 panelX;
 
-            whiteCapturedLabel.Top =
-                330;
+            blackCapturedPanel.Top =
+                260;
+
+            blackCapturedPanel.Width =
+                280;
+
+            blackCapturedPanel.Height =
+                80;
+
+            blackCapturedPanel.BackColor =
+                Color.FromArgb(
+                    155, 175, 205);
 
             Controls.Add(
-                whiteCapturedLabel);
+                blackCapturedPanel);
+
+            // Lost title
+            Label lostTitle =
+                new Label();
+
+            lostTitle.Text =
+                "Lost Pieces";
+
+            lostTitle.ForeColor =
+                Color.White;
+
+            lostTitle.BackColor =
+                Color.Transparent;
+
+            lostTitle.Font =
+                new Font(
+                    "Segoe UI",
+                    14,
+                    FontStyle.Bold);
+
+            lostTitle.Left =
+                panelX;
+
+            lostTitle.Top =
+                360;
+
+            lostTitle.AutoSize =
+                true;
+
+            Controls.Add(
+                lostTitle);
+
+            // Lost panel
+            whiteCapturedPanel =
+                new FlowLayoutPanel();
+
+            whiteCapturedPanel.Left =
+                panelX;
+
+            whiteCapturedPanel.Top =
+                400;
+
+            whiteCapturedPanel.Width =
+                280;
+
+            whiteCapturedPanel.Height =
+                80;
+
+            whiteCapturedPanel.BackColor =
+                Color.FromArgb(
+                    155, 175, 205);
+
+            Controls.Add(
+                whiteCapturedPanel);
 
             // Restart button
             restartButton =
@@ -330,6 +487,25 @@ namespace ChakraView.GUI
 
             restartButton.Top =
                 470;
+
+            restartButton.FlatStyle =
+                FlatStyle.Flat;
+
+            restartButton.FlatAppearance
+                .BorderSize = 0;
+
+            restartButton.BackColor =
+                Color.FromArgb(
+                    44, 55, 72);
+
+            restartButton.ForeColor =
+                Color.White;
+
+            restartButton.Font =
+                new Font(
+                    "Segoe UI",
+                    12,
+                    FontStyle.Bold);
 
             restartButton.Click +=
                 RestartGame;
@@ -356,6 +532,25 @@ namespace ChakraView.GUI
             withdrawButton.Top =
                 540;
 
+            withdrawButton.FlatStyle =
+                FlatStyle.Flat;
+
+            withdrawButton.FlatAppearance
+                .BorderSize = 0;
+
+            withdrawButton.BackColor =
+                Color.FromArgb(
+                    90, 45, 45);
+
+            withdrawButton.ForeColor =
+                Color.White;
+
+            withdrawButton.Font =
+                new Font(
+                    "Segoe UI",
+                    12,
+                    FontStyle.Bold);
+
             withdrawButton.Click +=
                 WithdrawGame;
 
@@ -377,10 +572,69 @@ namespace ChakraView.GUI
                         board.Squares[
                             row, col];
 
-                    squares[row, col]
-                        .Text =
-                        GetPieceSymbol(
-                            piece);
+                    Button square =
+                        squares[
+                            row, col];
+
+                    square.Text =
+                        "";
+
+                    square.Image =
+                        null;
+
+                    if (piece.Type ==
+                        PieceType.None)
+                    {
+                        continue;
+                    }
+
+                    string key =
+                        $"{piece.Color}_" +
+                        $"{piece.Type}";
+
+                    Image original =
+                        pieceImages[key];
+
+                    Bitmap fittedImage =
+                        new Bitmap(
+                            74,
+                            74);
+
+                    using (Graphics g =
+                           Graphics.FromImage(
+                               fittedImage))
+                    {
+                        g.InterpolationMode =
+                            System.Drawing
+                            .Drawing2D
+                            .InterpolationMode
+                            .HighQualityBicubic;
+
+                        g.DrawImage(
+                            original,
+                            new Rectangle(
+                                0,
+                                0,
+                                74,
+                                74));
+                    }
+
+                    square.Image =
+                        fittedImage;
+
+                    square.UseVisualStyleBackColor = false;
+
+
+                    square.BackColor =
+                        (row + col) % 2 == 0
+                        ? Color.FromArgb(
+                            125, 155, 190)
+                        : Color.FromArgb(
+                            70, 97, 135);
+
+                    square.ImageAlign =
+                        ContentAlignment
+                        .MiddleCenter;
                 }
             }
         }
@@ -390,7 +644,9 @@ namespace ChakraView.GUI
             int col)
         {
             if (gameOver ||
-                aiThinking)
+                aiThinking ||
+                timer.IsTimeOver(
+                    PieceColor.White))
             {
                 return;
             }
@@ -415,19 +671,25 @@ namespace ChakraView.GUI
                     return;
                 }
 
-                selectedRow =
-                    row;
+                selectedRow = row;
 
-                selectedCol =
-                    col;
 
-                squares[row, col]
-                    .BackColor =
-                    Color.Yellow;
+                selectedCol = col;
+
+
+                ShowLegalMoves(row, col);
+
+
+
+                squares[row, col].BackColor = Color.FromArgb(120, 170, 255);
+
+
+
+
 
                 return;
             }
-
+            ClearMoveHints();
             Move move =
                 new Move(
                     selectedRow,
@@ -485,6 +747,7 @@ namespace ChakraView.GUI
                 if (CheckGameOver(
                     PieceColor.Black))
                 {
+                    ClearMoveHints();
                     ResetBoardColors();
 
                     selectedRow = -1;
@@ -508,6 +771,11 @@ namespace ChakraView.GUI
                         ai.GetBestMove(
                             board,
                             PieceColor.Black));
+
+                if (gameOver || timer.IsTimeOver(PieceColor.White))
+                {
+                    return;
+                }
 
                 Piece aiPiece =
                     board.Squares[
@@ -547,6 +815,7 @@ namespace ChakraView.GUI
                 if (CheckGameOver(
                     PieceColor.White))
                 {
+                    ClearMoveHints();
                     ResetBoardColors();
 
                     selectedRow = -1;
@@ -565,7 +834,7 @@ namespace ChakraView.GUI
                     "Your Move";
                 aiThinking = false;
             }
-
+            ClearMoveHints();
             ResetBoardColors();
 
             selectedRow = -1;
@@ -579,6 +848,11 @@ namespace ChakraView.GUI
             object? sender,
             EventArgs e)
         {
+            if (gameOver)
+            {
+                return;
+            }
+
             timer.Tick(
                 PieceColor.White);
 
@@ -595,10 +869,15 @@ namespace ChakraView.GUI
                 .IsTimeOver(
                     PieceColor.White))
             {
+                gameOver = true;
+
                 gameTimer.Stop();
 
+                turnLabel.Text =
+                    "Game Over";
+
                 MessageBox.Show(
-                    "Time Over!\nYou Lost.");
+                    "Time Over!\nBlack Wins!");
             }
         }
 
@@ -640,6 +919,10 @@ namespace ChakraView.GUI
             object? sender,
             EventArgs e)
         {
+            gameOver = true;
+
+            gameTimer.Stop();
+
             MessageBox.Show(
                 "You withdrew.\nBlack wins!");
         }
@@ -657,10 +940,132 @@ namespace ChakraView.GUI
                     squares[row, col]
                         .BackColor =
                         (row + col) % 2 == 0
-                        ? Color.Beige
-                        : Color.SaddleBrown;
+                        ? Color.FromArgb(
+                            125, 155, 190)
+                        : Color.FromArgb(
+                            70, 97, 135);
                 }
             }
+        }
+
+        private void HighlightKingInCheck(PieceColor color)
+
+        {
+            for (int row = 0;
+                 row < 8;
+                 row++)
+            {
+                for (int col = 0;
+                     col < 8;
+                     col++)
+                {
+                    Piece piece =
+                        board.Squares[
+                            row,
+                            col];
+
+                    if (piece.Type ==
+                        PieceType.King &&
+                        piece.Color ==
+                        color)
+                    {
+                        squares[row, col]
+                            .BackColor =
+                            Color.Red;
+
+                        return;
+                    }
+                }
+            }
+        }
+
+        private void ShowLegalMoves(
+    int row,
+    int col)
+        {
+            ClearMoveHints();
+
+            for (int targetRow = 0;
+                 targetRow < 8;
+                 targetRow++)
+            {
+                for (int targetCol = 0;
+                     targetCol < 8;
+                     targetCol++)
+                {
+                    Move move =
+                        new Move(
+                            row,
+                            col,
+                            targetRow,
+                            targetCol);
+
+                    bool legal =
+                        moveValidator
+                        .IsMoveLegal(
+                            board,
+                            move,
+                            PieceColor.White);
+
+                    if (legal)
+                    {
+                        Panel hint =
+                            new Panel();
+
+                        hint.Width = 18;
+                        hint.Height = 18;
+
+                        hint.BackColor =
+                            Color.Gray;
+
+                        hint.Left =
+                            squares[targetRow,
+                                targetCol].Left
+                            + 31;
+
+                        hint.Top =
+                            squares[targetRow,
+                                targetCol].Top
+                            + 31;
+
+                        hint.Region =
+                            Region.FromHrgn(
+                                NativeMethods
+                                .CreateRoundRectRgn(
+                                    0,
+                                    0,
+                                    hint.Width,
+                                    hint.Height,
+                                    18,
+                                    18));
+
+                        hint.Enabled =
+                            false;
+
+                        moveHints
+                            .Add(hint);
+
+                        Controls.Add(
+                            hint);
+
+                        hint.BringToFront();
+                    }
+                }
+            }
+        }
+
+        private void ClearMoveHints()
+        {
+            foreach (var hint
+                in moveHints)
+            {
+                Controls.Remove(
+                    hint);
+
+                hint.Dispose();
+            }
+
+            moveHints.Clear();
         }
 
         private string GetPieceSymbol(
@@ -704,21 +1109,61 @@ namespace ChakraView.GUI
 
         private void UpdateCapturedUI()
         {
-            blackCapturedLabel.Text =
-                "Captured:\n" +
-                string.Join(
-                    " ",
-                    capturedByWhite
-                    .Select(p =>
-                        GetPieceSymbol(p)));
+            blackCapturedPanel.Controls
+                .Clear();
 
-            whiteCapturedLabel.Text =
-                "Lost:\n" +
-                string.Join(
-                    " ",
-                    capturedByBlack
-                    .Select(p =>
-                        GetPieceSymbol(p)));
+            whiteCapturedPanel.Controls
+                .Clear();
+
+            foreach (Piece piece
+                in capturedByWhite)
+            {
+                string key =
+                    $"{piece.Color}_" +
+                    $"{piece.Type}";
+
+                PictureBox picture =
+                    new PictureBox();
+
+                picture.Image =
+                    pieceImages[key];
+
+                picture.Width = 36;
+                picture.Height = 36;
+
+                picture.SizeMode =
+                    PictureBoxSizeMode
+                    .Zoom;
+
+                blackCapturedPanel
+                    .Controls
+                    .Add(picture);
+            }
+
+            foreach (Piece piece
+                in capturedByBlack)
+            {
+                string key =
+                    $"{piece.Color}_" +
+                    $"{piece.Type}";
+
+                PictureBox picture =
+                    new PictureBox();
+
+                picture.Image =
+                    pieceImages[key];
+
+                picture.Width = 36;
+                picture.Height = 36;
+
+                picture.SizeMode =
+                    PictureBoxSizeMode
+                    .Zoom;
+
+                whiteCapturedPanel
+                    .Controls
+                    .Add(picture);
+            }
         }
 
         private bool CheckGameOver(
@@ -783,15 +1228,23 @@ namespace ChakraView.GUI
                     board,
                     PieceColor.Black);
 
+            ResetBoardColors();
+
             if (whiteInCheck)
             {
                 checkLabel.Text =
                     "CHECK!";
+
+                HighlightKingInCheck(
+                    PieceColor.White);
             }
             else if (blackInCheck)
             {
                 checkLabel.Text =
                     "AI IN CHECK!";
+
+                HighlightKingInCheck(
+                    PieceColor.Black);
             }
             else
             {
@@ -851,4 +1304,18 @@ namespace ChakraView.GUI
             }
         }
     }
+}
+
+internal static class NativeMethods
+{
+    [System.Runtime.InteropServices.DllImport(
+        "gdi32.dll")]
+    public static extern IntPtr
+        CreateRoundRectRgn(
+            int nLeftRect,
+            int nTopRect,
+            int nRightRect,
+            int nBottomRect,
+            int nWidthEllipse,
+            int nHeightEllipse);
 }

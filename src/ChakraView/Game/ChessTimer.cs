@@ -27,11 +27,17 @@
             if (currentPlayer ==
                 PieceColor.White)
             {
-                WhiteTimeSeconds--;
+                if (WhiteTimeSeconds > 0)
+                {
+                    WhiteTimeSeconds--;
+                }
             }
             else
             {
-                BlackTimeSeconds--;
+                if (BlackTimeSeconds > 0)
+                {
+                    BlackTimeSeconds--;
+                }
             }
         }
 
